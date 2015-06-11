@@ -28,6 +28,11 @@
         return;
     
     self.needCalculate = NO;
+    [self calculateSize];
+}
+
+- (void)calculateSize {
+    
     [_sizes removeAllObjects];
     [_heightOfRows removeAllObjects];
     [_widthOfList removeAllObjects];
@@ -78,7 +83,6 @@
         }
         [_widthOfList addObject:[NSNumber numberWithFloat:maxWidth]];
     }
-    
 }
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
@@ -178,6 +182,15 @@
 //    
 //    return proposedContentOffset;
 //}
+
+- (void)invalidateLayoutWithContext:(UICollectionViewLayoutInvalidationContext *)context {
+    
+    [super invalidateLayoutWithContext:context];
+    
+    if (context.invalidateEverything) {
+        [self calculateSize];
+    }
+}
 
 - (CGSize)collectionViewContentSize {
     
